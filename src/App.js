@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+import FormRegister from './components/FormRegister';
+import FormAuth from './components/FormAuth';
+import PersonalAccount from './components/PersonalAccount';
+import { useState } from 'react';
 
 function App() {
+
+  const [formMode, setFormMode] = useState('auth')
+  const [loggedInUser, setLoggedInUser] = useState('')
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {formMode === 'auth' ? (<FormAuth onSwitchToRegister={() => setFormMode('register')}
+        onSwitchToPersonalAccount={() => setFormMode('personal-account')}
+        onLoginSuccess={(login) => setLoggedInUser(login)} />) :
+        formMode === 'register' ? (<FormRegister onSwitchToAuth={() => setFormMode('auth')} onRegisterSuccess={(login) => {
+          alert("Регистрация успешна!")
+          setLoggedInUser(login)
+          setFormMode('personal-account')
+        }} />) :
+          <PersonalAccount onLogOut={() => setFormMode('auth')} loggedInUser={loggedInUser} />}
     </div>
   );
 }
