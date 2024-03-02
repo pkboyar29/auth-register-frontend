@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-function FormAuth({ onSwitchToRegister, onSwitchToPersonalAccount, onLoginSuccess }) {
+function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 
 	// Хуки useState
 	const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,6 @@ function FormAuth({ onSwitchToRegister, onSwitchToPersonalAccount, onLoginSucces
 					case 200:
 						const loginFromInput = data['login'] // получаем правильный, подтвержденный логин из input
 						onLoginSuccess(loginFromInput)
-						onSwitchToPersonalAccount() // переключение на личный кабинет
 						return
 					case 403:
 						label_login.textContent = ""
@@ -49,8 +48,6 @@ function FormAuth({ onSwitchToRegister, onSwitchToPersonalAccount, onLoginSucces
 						return
 				}
 			})
-		// .then(response => response.json()) // преобразуем ответ в json
-		// .then(response => console.log(response))
 	}
 
 	return (

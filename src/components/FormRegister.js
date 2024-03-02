@@ -38,8 +38,8 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 			body: JSON.stringify(data)
 		})
 			.then(response => onRegisterSuccess(data['login']))
-		// .then(response => console.log(response))
-		// onRegisterSuccess(data['login'])
+		.then(response => response.json())
+		.then(responseJson => console.log(responseJson))
 	}
 
 	return (

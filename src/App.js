@@ -11,9 +11,12 @@ function App() {
 
   return (
     <div className="App">
-      {formMode === 'auth' ? (<FormAuth onSwitchToRegister={() => setFormMode('register')}
-        onSwitchToPersonalAccount={() => setFormMode('personal-account')}
-        onLoginSuccess={(login) => setLoggedInUser(login)} />) :
+      {formMode === 'auth' ?
+        (<FormAuth onSwitchToRegister={() => setFormMode('register')}
+          onLoginSuccess={(login) => {
+            setLoggedInUser(login)
+            setFormMode('personal-account')
+          }} />) :
         formMode === 'register' ? (<FormRegister onSwitchToAuth={() => setFormMode('auth')} onRegisterSuccess={(login) => {
           alert("Регистрация успешна!")
           setLoggedInUser(login)
