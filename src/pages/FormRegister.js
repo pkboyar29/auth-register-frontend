@@ -35,7 +35,6 @@ function FormRegister({ onRegisterSuccess }) {
 	// функция обратного вызова (та функция, которую можно передать как параметр в другую функцию)
 	const onSubmit = (data) => {
 		delete data.confirmPassword
-		data.lastName = data.lastName.trim()
 
 		// передача на сервер json строки
 		fetch('http://backend-php/index.php/user/register', {
@@ -118,6 +117,14 @@ function FormRegister({ onRegisterSuccess }) {
 								pattern: {
 									value: /^[A-Za-zА-Яа-яЁё\s\-]+$/, // Разрешаем буквы, пробелы и дефисы
 									message: "Допускаются только буквы, пробелы и дефисы"
+								},
+								validate: {
+									checkWhitespaces: (value) => {
+										const trimmedValue = value.trim()
+										if (trimmedValue !== value) {
+											return "В начале и конце не должно быть пробелов"
+										}
+									}
 								}
 							})}
 							type="text"
@@ -138,13 +145,7 @@ function FormRegister({ onRegisterSuccess }) {
 								required: "Поле обязательно к заполнению",
 								validate: {
 									checkEmailFormat: (value) => {
-										if (!validator.validate(value)) {
-											return "Неверный формат email"
-										}
-										const trimmedValue = value.trim()
-										if (trimmedValue.length !== value.length) {
-											return "Email не должен содержать пробелы в начале и конце"
-										}
+										return validator.validate(value) || "Неверный формат email"
 									}
 								}
 							})}
