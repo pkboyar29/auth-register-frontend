@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
+function FormRegister({ onRegisterSuccess }) {
 
 	// Хуки useState
 	const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,9 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 	const toggleConfirmPasswordVisibility = () => {
 		setShowConfirmPassword(!showConfirmPassword);
 	};
+
+	// Хук useNavigate для изменения URL
+	const navigate = useNavigate()
 
 	// Хук useForm
 	const {
@@ -42,26 +46,24 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 				switch (response.status) {
 					case 200:
 						onRegisterSuccess(data['login'])
+						navigate('/personal-account')
 						return
 					case 403:
-						// ТУТ НЕОБХОДИМО МЕНЯТЬ СООБЩЕНИЕ ОШИБКИ, ЕСЛИ SQL ЗАПРОС НЕ СРАБОТАЕТ
 						setError('login', {
 							type: 'manual',
 							message: 'Пользователь с таким логином уже существует'
 						})
-						// errors.login.message = "Пользователь с таким логином уже существует"
 						return
 					default:
 						console.log("упс")
+						return
 				}
 			}
 			)
-		// .then(response => response.json())
-		// .then(responseJson => console.log(responseJson))
 	}
 
 	return (
-		<div style={{ marginTop: '100px' }}>
+		<div style={{ marginTop: '50px' }}>
 			{/* функция handleSubmit принимает как параметр callback функцию */}
 			<form onSubmit={handleSubmit(onSubmit)} className="form">
 
@@ -277,7 +279,7 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 
 				<div className="switch">
 					<div>Уже зарегестрированы?   </div>
-					<div className="link" onClick={onSwitchToAuth}>Тогда авторизуйтесь.</div>
+					<Link to="/auth" className="link">Тогда авторизуйтесь.</Link>
 				</div>
 
 			</form>

@@ -12,8 +12,15 @@ code {
     monospace;
 }
 
-html, #root, .App, body {
+html,
+#root,
+.App,
+body {
   height: 100%;
+}
+
+ul li {
+  list-style: none;
 }
 
 /* GENERAL */
@@ -181,4 +188,32 @@ input {
 .darkBackground {
   background-color: rgb(5, 4, 4);
   height: 100%;
+}
+
+/* HEADER */
+
+.header-app {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.header-app__link {
+  color: #000;
+  text-decoration: none;
+  font-size: 18px;
+  transition: all .3s;
+} 
+
+.header-app__link:hover {
+  color: #7e5f5f;
+}
+
+/* OTHER */
+
+.notAuthText {
+  text-align: center;
+  padding-top: 100px;
+  font-size: 20px;
 }

@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, Link } from 'react-router-dom';
 
-function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
+function FormAuth({ onLoginSuccess }) {
 
-	// Хуки useState
+	// Хук useState
 	const [showPassword, setShowPassword] = useState(false);
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	};
+
+	// Хук useNavigate
+	const navigate = useNavigate()
 
 	// Хук useForm
 	const {
@@ -36,6 +40,7 @@ function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 					case 200:
 						const loginFromInput = data['login'] // получаем правильный, подтвержденный логин из input
 						onLoginSuccess(loginFromInput)
+						navigate('/personal-account')
 						return
 					case 403:
 						setError('password', {
@@ -55,7 +60,7 @@ function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 
 	return (
 
-		<div style={{ marginTop: '100px' }}>
+		<div style={{ marginTop: '50px' }}>
 			{/* функция handleSubmit принимает как параметр callback функцию */}
 			<form onSubmit={handleSubmit(onSubmit)} className="form">
 
@@ -108,7 +113,7 @@ function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 
 				<div className="switch">
 					<div>Еще не зарегестрированы?</div>
-					<div className="link" onClick={onSwitchToRegister}>Зарегестрироваться.</div>
+					<Link to="/register" className="link">Зарегестрироваться.</Link>
 				</div>
 
 			</form>

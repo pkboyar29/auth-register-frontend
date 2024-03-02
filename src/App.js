@@ -1,30 +1,47 @@
-//import logo from './logo.svg';
-import FormRegister from './components/FormRegister';
-import FormAuth from './components/FormAuth';
-import PersonalAccount from './components/PersonalAccount';
 import { useState } from 'react';
+import { Link, Routes, Route, Navigate } from 'react-router-dom';
+
+// pages
+import FormRegister from './pages/FormRegister';
+import FormAuth from './pages/FormAuth';
+import PersonalAccount from './pages/PersonalAccount';
 
 function App() {
 
-  const [formMode, setFormMode] = useState('auth')
   const [loggedInUser, setLoggedInUser] = useState('')
 
   return (
     <div className="App">
-      {formMode === 'auth' ?
-        (<FormAuth onSwitchToRegister={() => setFormMode('register')}
-          onLoginSuccess={(login) => {
-            setLoggedInUser(login)
-            setFormMode('personal-account')
-          }} />) :
-        formMode === 'register' ? (
-          <FormRegister onSwitchToAuth={() => setFormMode('auth')}
+
+      {/* <header className="header-app">
+        <Link className="header-app__link" to="/auth">Авторизация</Link>
+        <Link className="header-app__link" to="/register">Регистрация</Link>
+        <Link className="header-app__link" to="/personal-account">Личный кабинет</Link>
+      </header> */}
+
+      <Routes>
+        <Route path="/auth" element={
+          <FormAuth
+            onLoginSuccess={(login) => {
+              setLoggedInUser(login)
+            }} />
+        }></Route>
+        <Route path="/register" element={
+          <FormRegister
             onRegisterSuccess={(login) => {
               alert("Регистрация успешна!")
               setLoggedInUser(login)
-              setFormMode('personal-account')
-            }} />) :
-          <PersonalAccount onLogOut={() => setFormMode('auth')} loggedInUser={loggedInUser} />}
+            }} />
+        }></Route>
+        <Route path="/personal-account" element={
+          <PersonalAccount loggedInUser={loggedInUser}
+            logOut={() => {
+              setLoggedInUser('')
+            }} />
+        }></Route>
+        {/* НИЖЕ КОСТЫЛЬ? */}
+        <Route path="/" element={<Navigate to="/auth" />} />
+      </Routes>
     </div>
   );
 }
