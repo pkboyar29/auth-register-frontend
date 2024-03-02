@@ -18,6 +18,7 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 	// Хук useForm
 	const {
 		register,
+		setError,
 		formState: { errors, isValid },
 		handleSubmit,
 		getValues
@@ -37,9 +38,26 @@ function FormRegister({ onSwitchToAuth, onRegisterSuccess }) {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => onRegisterSuccess(data['login']))
-		.then(response => response.json())
-		.then(responseJson => console.log(responseJson))
+			.then(response => {
+				switch (response.status) {
+					case 200:
+						onRegisterSuccess(data['login'])
+						return
+					case 403:
+						// ТУТ НЕОБХОДИМО МЕНЯТЬ СООБЩЕНИЕ ОШИБКИ, ЕСЛИ SQL ЗАПРОС НЕ СРАБОТАЕТ
+						setError('login', {
+							type: 'manual',
+							message: 'Пользователь с таким логином уже существует'
+						})
+						// errors.login.message = "Пользователь с таким логином уже существует"
+						return
+					default:
+						console.log("упс")
+				}
+			}
+			)
+		// .then(response => response.json())
+		// .then(responseJson => console.log(responseJson))
 	}
 
 	return (

@@ -13,6 +13,7 @@ function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 	// Хук useForm
 	const {
 		register,
+		setError,
 		formState: { errors, isValid },
 		handleSubmit
 	} = useForm({
@@ -31,20 +32,22 @@ function FormAuth({ onSwitchToRegister, onLoginSuccess }) {
 		})
 			.then(response => {
 				// проверяем код состояния ответа (http reponse code status)
-				const label_password = document.getElementById("label_password")
-				const label_login = document.getElementById("label_login")
 				switch (response.status) {
 					case 200:
 						const loginFromInput = data['login'] // получаем правильный, подтвержденный логин из input
 						onLoginSuccess(loginFromInput)
 						return
 					case 403:
-						label_login.textContent = ""
-						label_password.textContent = "Неверный пароль."
+						setError('password', {
+							type: 'manual',
+							message: 'Неверный пароль'
+						})
 						return
 					case 404:
-						label_password.textContent = ""
-						label_login.textContent = "Пользователя не существует."
+						setError('login', {
+							type: 'manual',
+							message: 'Пользователя с таким логином не существует'
+						})
 						return
 				}
 			})

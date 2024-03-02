@@ -17,11 +17,13 @@ function App() {
             setLoggedInUser(login)
             setFormMode('personal-account')
           }} />) :
-        formMode === 'register' ? (<FormRegister onSwitchToAuth={() => setFormMode('auth')} onRegisterSuccess={(login) => {
-          alert("Регистрация успешна!")
-          setLoggedInUser(login)
-          setFormMode('personal-account')
-        }} />) :
+        formMode === 'register' ? (
+          <FormRegister onSwitchToAuth={() => setFormMode('auth')}
+            onRegisterSuccess={(login) => {
+              alert("Регистрация успешна!")
+              setLoggedInUser(login)
+              setFormMode('personal-account')
+            }} />) :
           <PersonalAccount onLogOut={() => setFormMode('auth')} loggedInUser={loggedInUser} />}
     </div>
   );
