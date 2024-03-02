@@ -39,7 +39,7 @@ function App() {
               setLoggedInUser('')
             }} />
         }></Route>
-        {/* НИЖЕ КОСТЫЛЬ? */}
+
         <Route path="/" element={<Navigate to="/auth" />} />
       </Routes>
     </div>

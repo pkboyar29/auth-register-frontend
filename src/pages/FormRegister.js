@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+import validator from 'email-validator';
+
 function FormRegister({ onRegisterSuccess }) {
 
 	// Хуки useState
@@ -33,6 +35,7 @@ function FormRegister({ onRegisterSuccess }) {
 	// функция обратного вызова (та функция, которую можно передать как параметр в другую функцию)
 	const onSubmit = (data) => {
 		delete data.confirmPassword
+		data.lastName = data.lastName.trim()
 
 		// передача на сервер json строки
 		fetch('http://backend-php/index.php/user/register', {
@@ -133,9 +136,16 @@ function FormRegister({ onRegisterSuccess }) {
 						<input
 							{...register('email', {
 								required: "Поле обязательно к заполнению",
-								pattern: {
-									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-									message: "Неверный формат email"
+								validate: {
+									checkEmailFormat: (value) => {
+										if (!validator.validate(value)) {
+											return "Неверный формат email"
+										}
+										const trimmedValue = value.trim()
+										if (trimmedValue.length !== value.length) {
+											return "Email не должен содержать пробелы в начале и конце"
+										}
+									}
 								}
 							})}
 							type="email"
