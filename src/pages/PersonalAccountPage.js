@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function PersonalAccount({ loggedInUser, logOut }) {
+function PersonalAccountPage({ loggedInUser, logOut }) {
 
 	const [userName, setUserName] = useState('')
 	const [theme, setTheme] = useState('light')
@@ -65,4 +65,4 @@ function PersonalAccount({ loggedInUser, logOut }) {
 	)
 }
 
-export default PersonalAccount
+export default PersonalAccountPage

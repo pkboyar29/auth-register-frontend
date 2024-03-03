@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import validator from 'email-validator';
 
-function FormRegister({ onRegisterSuccess }) {
+function RegisterPage({ onRegisterSuccess }) {
 
 	// Хуки useState
 	const [showPassword, setShowPassword] = useState(false);
@@ -299,4 +299,4 @@ function FormRegister({ onRegisterSuccess }) {
 	)
 }
 
-export default FormRegister;
+export default RegisterPage;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 
-function FormAuth({ onLoginSuccess }) {
+function AuthPage({ onLoginSuccess }) {
 
 	// Хук useState
 	const [showPassword, setShowPassword] = useState(false);
@@ -121,4 +121,4 @@ function FormAuth({ onLoginSuccess }) {
 	)
 }
 
-export default FormAuth;
+export default AuthPage;

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Link, Routes, Route, Navigate } from 'react-router-dom';
 
 // pages
-import FormRegister from './pages/FormRegister';
-import FormAuth from './pages/FormAuth';
-import PersonalAccount from './pages/PersonalAccount';
+import RegisterPage from './pages/RegisterPage';
+import AuthPage from './pages/AuthPage';
+import PersonalAccountPage from './pages/PersonalAccountPage';
+import HomePage from './pages/HomePage';
 
 function App() {
 
@@ -20,27 +21,30 @@ function App() {
       </header> */}
 
       <Routes>
+        <Route path="/" element={
+          <HomePage />
+        }></Route>
         <Route path="/auth" element={
-          <FormAuth
+          <AuthPage
             onLoginSuccess={(login) => {
               setLoggedInUser(login)
             }} />
         }></Route>
         <Route path="/register" element={
-          <FormRegister
+          <RegisterPage
             onRegisterSuccess={(login) => {
               alert("Регистрация успешна!")
               setLoggedInUser(login)
             }} />
         }></Route>
         <Route path="/personal-account" element={
-          <PersonalAccount loggedInUser={loggedInUser}
+          <PersonalAccountPage loggedInUser={loggedInUser}
             logOut={() => {
               setLoggedInUser('')
             }} />
         }></Route>
 
-        <Route path="/" element={<Navigate to="/auth" />} />
+        {/* <Route path="/" element={<Navigate to="/auth" />} /> */}
       </Routes>
     </div>
   );
