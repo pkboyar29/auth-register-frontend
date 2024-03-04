@@ -1,14 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import validator from 'email-validator';
 
 function RegisterPage({ onRegisterSuccess }) {
 
 	// Хуки useState
-	const [showPassword, setShowPassword] = useState(false);
-	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [showPassword, setShowPassword] = useState(false)
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+	const [captchaPassed, setCaptchaPassed] = useState(false)
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
@@ -62,6 +64,13 @@ function RegisterPage({ onRegisterSuccess }) {
 				}
 			}
 			)
+	}
+
+	const onChangeCaptcha = (value) => {
+
+		// отправить токен на сервер и проверить его, обратившись к reCAPTCHA API
+
+		setCaptchaPassed(true); // Устанавливаем состояние капчи как пройденную при успешном изменении капчи
 	}
 
 	return (
@@ -285,8 +294,15 @@ function RegisterPage({ onRegisterSuccess }) {
 					Принимаю правила соглашения
 				</label>
 
+				{/* reCAPTCHA v2 */}
+				<ReCAPTCHA
+					className="captcha"
+					sitekey="6LdxW4gpAAAAAMfJ5sANc6u5HMmxZ5TBKIKoBkTg"
+					onChange={onChangeCaptcha}
+				/>
+
 				{/* SUBMIT BUTTON */}
-				<input className="submit_button" type="submit" value="Зарегестрироваться" disabled={!isValid} />
+				<input className="submit_button" type="submit" value="Зарегестрироваться" disabled={!isValid || !captchaPassed} />
 
 				<div className="switch">
 					<div>Уже зарегестрированы?   </div>

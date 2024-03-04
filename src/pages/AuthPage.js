@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 function AuthPage({ onLoginSuccess }) {
 
 	// Хук useState
 	const [showPassword, setShowPassword] = useState(false);
+	const [captchaPassed, setCaptchaPassed] = useState(false)
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
@@ -58,6 +60,33 @@ function AuthPage({ onLoginSuccess }) {
 			})
 	}
 
+	const onChangeCaptcha = (value) => {
+
+		setCaptchaPassed(true)
+
+		// отправить токен на сервер и проверить его там, обратившись к reCAPTCHA API
+		// fetch('http://backend-php/index.php/token', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/x-www-form-urlencoded'
+		// 	},
+		// 	body: JSON.stringify(value)
+		// })
+		// 	.then(response => response.text())
+		// 	.then(responseJson => console.log(responseJson))
+		// .then(response => {
+		// 	switch (response.status) {
+		// 		case 200:
+		// 			setCaptchaPassed(true)
+		// 			return
+		// 		case 400:
+		// 			return
+		// 		default:
+		// 			return
+		// 	}
+		// })
+	}
+
 	return (
 
 		<div style={{ marginTop: '50px' }}>
@@ -107,8 +136,15 @@ function AuthPage({ onLoginSuccess }) {
 					</div>
 				</label>
 
+				{/* reCAPTCHA v2 */}
+				<ReCAPTCHA
+					className="captcha"
+					sitekey="6LdxW4gpAAAAAMfJ5sANc6u5HMmxZ5TBKIKoBkTg"
+					onChange={onChangeCaptcha}
+				/>
+
 				{/* SUBMIT BUTTON */}
-				<input className="submit_button" type="submit" value="Авторизоваться" disabled={!isValid} />
+				<input className="submit_button" type="submit" value="Авторизоваться" disabled={!isValid || !captchaPassed} />
 
 
 				<div className="switch">

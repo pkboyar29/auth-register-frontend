@@ -242,3 +242,9 @@ input {
   gap: 20px;
   flex-direction: column;
 }
+
+/* OTHERS */
+
+.captcha {
+  margin: 0 0 20px 0;
+}
