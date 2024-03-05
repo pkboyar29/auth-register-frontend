@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
+import Cookies from 'js-cookie';
 
-function AuthPage({ onLoginSuccess }) {
+function AuthPage() {
 
 	// Хук useState
 	const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +42,7 @@ function AuthPage({ onLoginSuccess }) {
 				switch (response.status) {
 					case 200:
 						const loginFromInput = data['login'] // получаем правильный, подтвержденный логин из input
-						onLoginSuccess(loginFromInput)
+						Cookies.set('login', loginFromInput)
 						navigate('/personal-account')
 						return
 					case 403:

@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
-function PersonalAccountPage({ loggedInUser, logOut }) {
+function PersonalAccountPage() {
 
-	const [userName, setUserName] = useState('')
+	const [firstName, setFirstName] = useState('')
 	const [theme, setTheme] = useState('light')
 
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (loggedInUser !== "") {
-			fetch('http://backend-php/index.php/user/userinfo/' + loggedInUser, {
+
+		// тут уже будет проверять не пропс loggedInUser, а то, что находится в cookie
+		if (Cookies.get('login') !== undefined) {
+			fetch('http://backend-php/index.php/user/userinfo/' + Cookies.get('login'), {
 				method: 'GET'
 			})
 				.then(response => response.json())
 				.then(responseJson => {
-					setUserName(responseJson['FirstName'])
+					setFirstName(responseJson['FirstName'])
 					setTheme(responseJson['Theme'])
 				})
 		}
 	}, [])
 
 	const onLogOutHandle = () => {
-		setUserName('')
+		setFirstName('')
 		setTheme('light')
-		logOut()
+		Cookies.remove('login')
 		navigate('/auth')
 	}
 
@@ -35,7 +38,7 @@ function PersonalAccountPage({ loggedInUser, logOut }) {
 		setTheme(newTheme)
 
 		// отправить http запрос на изменении самой темы у текущего пользователя
-		fetch('http://backend-php/index.php/user/changeTheme/' + loggedInUser, {
+		fetch('http://backend-php/index.php/user/changeTheme/' + Cookies.get('login'), {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -50,13 +53,13 @@ function PersonalAccountPage({ loggedInUser, logOut }) {
 
 	return (
 		<div className={theme === 'dark' ? 'darkBackground' : ''}>
-			{loggedInUser !== "" ? (
+			{Cookies.get('login') !== undefined ? ( // вот тут теперь будет проверять то, что в cookie
 				<>
 					<div className={"header " + (theme === 'dark' ? "darkHeader" : '')}>
 						<div onClick={handleChangeTheme} className={"header__theme " + (theme === 'dark' ? "darkButton" : '')}>{changeThemeButtonText}</div>
 						<div onClick={onLogOutHandle} className={"header__exit " + (theme === 'dark' ? "darkButton" : '')}>Выйти</div>
 					</div>
-					<div className={"text " + (theme === 'dark' ? 'darkText' : '')}>Добро пожаловать в личный кабинет, {userName}!</div>
+					<div className={"text " + (theme === 'dark' ? 'darkText' : '')}>Добро пожаловать в личный кабинет, {firstName}!</div>
 				</>
 			) : (
 				<p className="notAuthText">Вы не авторизованы. <Link to="/auth">Авторизоваться.</Link></p>

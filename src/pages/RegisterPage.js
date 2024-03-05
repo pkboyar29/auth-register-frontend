@@ -2,10 +2,11 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
+import Cookies from 'js-cookie';
 
 import validator from 'email-validator';
 
-function RegisterPage({ onRegisterSuccess }) {
+function RegisterPage() {
 
 	// Хуки useState
 	const [showPassword, setShowPassword] = useState(false)
@@ -49,7 +50,8 @@ function RegisterPage({ onRegisterSuccess }) {
 			.then(response => {
 				switch (response.status) {
 					case 200:
-						onRegisterSuccess(data['login'])
+						Cookies.set('login', data['login'])
+						alert("Регистрация успешна!")
 						navigate('/personal-account')
 						return
 					case 403:
