@@ -70,9 +70,26 @@ function RegisterPage() {
 
 	const onChangeCaptcha = (value) => {
 
-		// отправить токен на сервер и проверить его, обратившись к reCAPTCHA API
-
-		setCaptchaPassed(true); // Устанавливаем состояние капчи как пройденную при успешном изменении капчи
+		// отправить токен на сервер и проверить его там, обратившись к reCAPTCHA API
+		fetch('http://backend-php/index.php/token', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: JSON.stringify(value)
+		})
+			.then(response => {
+				switch (response.status) {
+					case 200:
+						setCaptchaPassed(true)
+						return
+					case 400:
+						console.log("все плохо")
+						return
+					default:
+						return
+				}
+			})
 	}
 
 	return (

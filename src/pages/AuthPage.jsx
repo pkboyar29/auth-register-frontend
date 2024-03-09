@@ -63,29 +63,26 @@ function AuthPage() {
 
 	const onChangeCaptcha = (value) => {
 
-		setCaptchaPassed(true)
-
 		// отправить токен на сервер и проверить его там, обратившись к reCAPTCHA API
-		// fetch('http://backend-php/index.php/token', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/x-www-form-urlencoded'
-		// 	},
-		// 	body: JSON.stringify(value)
-		// })
-		// 	.then(response => response.text())
-		// 	.then(responseJson => console.log(responseJson))
-		// .then(response => {
-		// 	switch (response.status) {
-		// 		case 200:
-		// 			setCaptchaPassed(true)
-		// 			return
-		// 		case 400:
-		// 			return
-		// 		default:
-		// 			return
-		// 	}
-		// })
+		fetch('http://backend-php/index.php/token', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: JSON.stringify(value)
+		})
+			.then(response => {
+				switch (response.status) {
+					case 200:
+						setCaptchaPassed(true)
+						return
+					case 400:
+						console.log("все плохо")
+						return
+					default:
+						return
+				}
+			})
 	}
 
 	return (
