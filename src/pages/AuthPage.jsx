@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -27,6 +27,8 @@ function AuthPage() {
 		mode: "onBlur"
 	});
 
+	const recaptchaRef = useRef()
+
 	// функция обратного вызова (та функция, которую можно передать как параметр в другую функцию)
 	const onSubmit = (data) => {
 		// передача на сервер json строки
@@ -50,12 +52,16 @@ function AuthPage() {
 							type: 'manual',
 							message: 'Неверный пароль'
 						})
+						// очистить рекапчу
+						recaptchaRef.current.reset()
 						return
 					case 404:
 						setError('login', {
 							type: 'manual',
 							message: 'Пользователя с таким логином не существует'
 						})
+						// очистить рекапчу
+						recaptchaRef.current.reset()
 						return
 				}
 			})
@@ -136,6 +142,7 @@ function AuthPage() {
 
 				{/* reCAPTCHA v2 */}
 				<ReCAPTCHA
+					ref={recaptchaRef}
 					className="captcha"
 					sitekey="6LdxW4gpAAAAAMfJ5sANc6u5HMmxZ5TBKIKoBkTg"
 					onChange={onChangeCaptcha}
