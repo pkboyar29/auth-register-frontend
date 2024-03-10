@@ -52,16 +52,16 @@ function AuthPage() {
 							type: 'manual',
 							message: 'Неверный пароль'
 						})
-						// очистить рекапчу
 						recaptchaRef.current.reset()
+						setCaptchaPassed(false)
 						return
 					case 404:
 						setError('login', {
 							type: 'manual',
 							message: 'Пользователя с таким логином не существует'
 						})
-						// очистить рекапчу
 						recaptchaRef.current.reset()
+						setCaptchaPassed(false)
 						return
 				}
 			})
