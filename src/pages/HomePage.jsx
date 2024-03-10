@@ -4,7 +4,7 @@ function HomePage() {
 
    useEffect(() => {
       // функция, которая будет выполнена при монтировании компонента
-      fetch('http://backend-php/index.php/users', {
+      fetch('http://auth-register-backend/index.php/users', {
          method: 'GET',
          headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -16,7 +16,7 @@ function HomePage() {
             selectorTable.innerHTML = responseText
          })
 
-      fetch('http://backend-php/index.php/users/statistics', {
+      fetch('http://auth-register-backend/index.php/users/statistics', {
          method: 'GET',
          headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -33,7 +33,7 @@ function HomePage() {
 
       const selectorResult = document.querySelector('.home-page__search-result')
       const selectorInput = document.querySelector('.home-page__search-field')
-      const requestURL = 'http://backend-php/index.php?username=' + selectorInput.value
+      const requestURL = 'http://auth-register-backend/index.php?username=' + selectorInput.value
       fetch(requestURL, {
          method: 'GET',
          headers: {

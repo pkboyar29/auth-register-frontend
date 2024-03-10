@@ -32,7 +32,7 @@ function AuthPage() {
 	// функция обратного вызова (та функция, которую можно передать как параметр в другую функцию)
 	const onSubmit = (data) => {
 		// передача на сервер json строки
-		fetch('http://backend-php/index.php/user/auth', {
+		fetch('http://auth-register-backend/index.php/user/auth', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -70,7 +70,7 @@ function AuthPage() {
 	const onChangeCaptcha = (value) => {
 
 		// отправить токен на сервер и проверить его там, обратившись к reCAPTCHA API
-		fetch('http://backend-php/index.php/token', {
+		fetch('http://auth-register-backend/index.php/token', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
