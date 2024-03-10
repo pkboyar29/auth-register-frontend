@@ -13,7 +13,7 @@ function PersonalAccountPage() {
 
 		// тут уже будет проверять не пропс loggedInUser, а то, что находится в cookie
 		if (Cookies.get('login') !== undefined) {
-			fetch('http://backend-php/index.php/user/userinfo/' + Cookies.get('login'), {
+			fetch('http://auth-register-backend/index.php/user/userinfo/' + Cookies.get('login'), {
 				method: 'GET'
 			})
 				.then(response => response.json())
@@ -38,7 +38,7 @@ function PersonalAccountPage() {
 		setTheme(newTheme)
 
 		// отправить http запрос на изменении самой темы у текущего пользователя
-		fetch('http://backend-php/index.php/user/changeTheme/' + Cookies.get('login'), {
+		fetch('http://auth-register-backend/index.php/user/changeTheme/' + Cookies.get('login'), {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'

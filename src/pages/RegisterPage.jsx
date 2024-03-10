@@ -40,7 +40,7 @@ function RegisterPage() {
 		delete data.confirmPassword
 
 		// передача на сервер json строки
-		fetch('http://backend-php/index.php/user/register', {
+		fetch('http://auth-register-backend/index.php/user/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -71,7 +71,7 @@ function RegisterPage() {
 	const onChangeCaptcha = (value) => {
 
 		// отправить токен на сервер и проверить его там, обратившись к reCAPTCHA API
-		fetch('http://backend-php/index.php/token', {
+		fetch('http://auth-register-backend/index.php/token', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
